@@ -293,7 +293,8 @@ function Experience() {
 
 function getSkillIconUrl(item) {
   if (item.iconSrc) {
-    return item.iconSrc;
+    const assetPath = item.iconSrc.replace(/^\/+/, "");
+    return `${import.meta.env.BASE_URL}${assetPath}`;
   }
 
   return null;
