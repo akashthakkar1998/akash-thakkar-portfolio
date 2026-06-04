@@ -146,7 +146,7 @@ function Hero() {
         <aside className="profile-card" aria-label="Professional snapshot">
           <div className="profile-card-header">
             <span className="availability-dot" />
-            <span>Boylston, MA</span>
+            <span>Boston, MA</span>
           </div>
           <h2>4+ years building cloud-native data and analytics platforms.</h2>
           <dl className="profile-list">
@@ -414,7 +414,7 @@ function Contact() {
 function Footer() {
   return (
     <footer>
-      <span>Boylston, MA</span>
+      <span>Boston, MA</span>
       <span>Data Engineering | Analytics Engineering | AI Data Platforms</span>
     </footer>
   );
