@@ -1,17 +1,19 @@
 :root {
-  --ink: #101918;
-  --muted: #62706c;
-  --line: #dce4e0;
-  --paper: #f7f8f5;
-  --soft: #eef4f0;
+  --ink: #081415;
+  --muted: #5d6f70;
+  --line: rgba(21, 67, 72, 0.16);
+  --paper: #f2f6f2;
+  --soft: #e9f2ee;
   --white: #ffffff;
   --green: #1f7a58;
   --teal: #0b7680;
   --amber: #bb7a20;
   --coral: #ad4c39;
-  --navy: #142637;
-  --navy-2: #203d45;
-  --shadow: 0 18px 45px rgba(20, 38, 55, 0.1);
+  --navy: #102434;
+  --navy-2: #1d4849;
+  --glow: rgba(25, 142, 124, 0.18);
+  --shadow: 0 24px 70px rgba(16, 36, 52, 0.13);
+  --deep-shadow: 0 34px 90px rgba(16, 36, 52, 0.24);
 }
 
 * {
@@ -20,14 +22,23 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 74px;
+  scroll-snap-type: y proximity;
 }
 
 body {
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   color: var(--ink);
-  background: var(--paper);
+  background:
+    linear-gradient(90deg, rgba(16, 36, 52, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(16, 36, 52, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 14% 12%, rgba(31, 122, 88, 0.16), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(187, 122, 32, 0.12), transparent 25%),
+    var(--paper);
+  background-size: 46px 46px, 46px 46px, auto, auto, auto;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 a {
@@ -44,6 +55,16 @@ dd {
   overflow-wrap: anywhere;
 }
 
+main,
+section,
+.hero-shell,
+.hero-copy,
+.profile-card,
+.role-card,
+.skills-layout {
+  min-width: 0;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -53,9 +74,21 @@ dd {
   justify-content: space-between;
   gap: 24px;
   padding: 14px clamp(20px, 5vw, 72px);
-  background: rgba(247, 248, 245, 0.9);
+  background: rgba(242, 246, 242, 0.82);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(16px);
+}
+
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--teal), #f3b96f);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 80ms linear;
 }
 
 .brand {
@@ -72,8 +105,9 @@ dd {
   place-items: center;
   color: var(--white);
   background: var(--navy);
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 850;
+  box-shadow: 0 14px 34px rgba(16, 36, 52, 0.18);
 }
 
 .brand strong,
@@ -103,11 +137,116 @@ dd {
   color: var(--green);
 }
 
+.nav-links a {
+  position: relative;
+  padding: 8px 0;
+  transition: color 160ms ease, background 160ms ease, padding 160ms ease;
+}
+
+.nav-links a::after {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  left: 0;
+  height: 2px;
+  content: "";
+  background: currentColor;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 180ms ease;
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-links a.is-active {
+  color: var(--navy);
+}
+
+.nav-links a.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.slide {
+  position: relative;
+  min-height: calc(100svh - 70px);
+  scroll-snap-align: start;
+  opacity: 0;
+  transform: translateY(34px) scale(0.985);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.slide.is-visible,
+.hero.slide {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.slide .section-heading,
+.slide .split-heading,
+.slide .summary-grid article,
+.slide .bring-grid article,
+.slide .ai-edge-main,
+.slide .ai-tool-grid article,
+.slide .role-card,
+.slide .skill-group-card,
+.slide .skill-logo-pill,
+.slide .skills-note,
+.slide .education-grid article,
+.slide.contact-section > div {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 620ms ease, transform 620ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.slide.is-visible .section-heading,
+.slide.is-visible .split-heading,
+.slide.is-visible .summary-grid article,
+.slide.is-visible .bring-grid article,
+.slide.is-visible .ai-edge-main,
+.slide.is-visible .ai-tool-grid article,
+.slide.is-visible .role-card,
+.slide.is-visible .skill-group-card,
+.slide.is-visible .skill-logo-pill,
+.slide.is-visible .skills-note,
+.slide.is-visible .education-grid article,
+.slide.contact-section.is-visible > div {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide.is-visible article:nth-child(2),
+.slide.is-visible .role-card:nth-child(2),
+.slide.is-visible .skill-group-card:nth-child(2),
+.slide.is-visible .skill-logo-pill:nth-child(2n) {
+  transition-delay: 80ms;
+}
+
+.slide.is-visible article:nth-child(3),
+.slide.is-visible .role-card:nth-child(3),
+.slide.is-visible .skill-group-card:nth-child(3),
+.slide.is-visible .skill-logo-pill:nth-child(3n) {
+  transition-delay: 140ms;
+}
+
+.slide.is-visible article:nth-child(4),
+.slide.is-visible .skill-group-card:nth-child(4),
+.slide.is-visible .skill-logo-pill:nth-child(4n) {
+  transition-delay: 200ms;
+}
+
 .hero {
+  display: grid;
+  align-items: center;
   padding: clamp(22px, 4vw, 48px) clamp(20px, 5vw, 72px) clamp(44px, 6vw, 72px);
 }
 
 .hero-shell {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.38fr);
   gap: clamp(28px, 5vw, 70px);
@@ -116,13 +255,27 @@ dd {
   padding: clamp(28px, 5vw, 58px);
   color: var(--white);
   background:
-    linear-gradient(135deg, rgba(20, 38, 55, 0.98), rgba(28, 74, 67, 0.96)),
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.16), transparent 32%);
-  border-radius: 8px;
+    radial-gradient(circle at 82% 12%, rgba(243, 185, 111, 0.18), transparent 28%),
+    radial-gradient(circle at 14% 24%, rgba(46, 211, 171, 0.18), transparent 32%),
+    linear-gradient(135deg, rgba(16, 36, 52, 0.99), rgba(24, 78, 72, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
   overflow: hidden;
+  box-shadow: var(--deep-shadow);
+}
+
+.hero-shell::before {
+  position: absolute;
+  inset: 18px;
+  pointer-events: none;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
 }
 
 .hero-copy {
+  position: relative;
+  z-index: 1;
   display: grid;
   align-content: center;
   max-width: 920px;
@@ -147,8 +300,8 @@ dd {
 h1 {
   margin: 0;
   max-width: 980px;
-  font-size: clamp(2.65rem, 5vw, 5.6rem);
-  line-height: 0.96;
+  font-size: clamp(2.4rem, 4.7vw, 5.1rem);
+  line-height: 0.98;
   letter-spacing: 0;
 }
 
@@ -187,7 +340,7 @@ h3 {
   justify-content: center;
   padding: 12px 18px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 999px;
   font-weight: 850;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
@@ -208,14 +361,31 @@ h3 {
   background: var(--white);
 }
 
+.button.primary:hover {
+  background: #249167;
+}
+
+.button.secondary:hover {
+  border-color: rgba(31, 122, 88, 0.28);
+}
+
 .profile-card {
+  position: relative;
+  z-index: 1;
   align-self: center;
   padding: 24px;
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(14px);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
 }
 
 .profile-card-header {
@@ -266,6 +436,8 @@ h3 {
 }
 
 .section {
+  display: grid;
+  align-content: center;
   padding: clamp(56px, 7vw, 96px) clamp(20px, 5vw, 72px);
 }
 
@@ -287,11 +459,10 @@ h3 {
 
 .intro-section,
 .skills-section {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .summary-grid,
-.case-grid,
 .ai-tool-grid,
 .bring-grid,
 .education-grid {
@@ -306,25 +477,35 @@ h3 {
 .summary-grid article,
 .ai-edge-main,
 .ai-tool-grid article,
-.case-card,
+.role-card,
 .education-grid article,
 .skills-note {
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
 .summary-grid article {
   padding: 24px;
 }
 
+.summary-grid article:hover,
+.ai-edge-main:hover,
+.ai-tool-grid article:hover,
+.role-card:hover,
+.education-grid article:hover,
+.skills-note:hover {
+  transform: translateY(-8px);
+  border-color: rgba(31, 122, 88, 0.24);
+  box-shadow: 0 30px 80px rgba(16, 36, 52, 0.16);
+}
+
 .summary-grid p,
 .bring-grid p,
 .ai-edge-main p,
 .ai-tool-grid p,
-.case-card p,
-.case-card li,
 .role-detail p,
 .role-detail li,
 .skills-note p,
@@ -343,7 +524,8 @@ footer {
 }
 
 .bring-section {
-  background: var(--paper);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(233, 242, 238, 0.82));
 }
 
 .split-heading {
@@ -357,7 +539,7 @@ footer {
 .bring-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--line);
   gap: 1px;
@@ -367,6 +549,13 @@ footer {
   min-height: 180px;
   padding: 22px;
   background: var(--white);
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.bring-grid article:hover {
+  z-index: 1;
+  background: #f7fbf8;
+  transform: scale(1.018);
 }
 
 .bring-grid article:last-child:nth-child(odd) {
@@ -387,7 +576,9 @@ footer {
 
 .ai-edge-section {
   color: var(--white);
-  background: var(--navy);
+  background:
+    radial-gradient(circle at 22% 18%, rgba(31, 122, 88, 0.3), transparent 24%),
+    linear-gradient(135deg, #102434, #16383d 62%, #102434);
 }
 
 .ai-edge-section .section-heading {
@@ -427,6 +618,19 @@ footer {
 .ai-tool-grid article {
   padding: 24px;
   color: var(--ink);
+  overflow: hidden;
+}
+
+.ai-tool-grid article::before,
+.summary-grid article::before,
+.role-card::before {
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-bottom: 18px;
+  content: "";
+  background: linear-gradient(90deg, var(--green), var(--teal));
+  border-radius: 999px;
 }
 
 .ai-tool-grid h3 {
@@ -447,70 +651,6 @@ footer {
 
 .ai-tool-grid article:nth-child(4) {
   border-top: 4px solid var(--coral);
-}
-
-.case-study-section {
-  background: var(--soft);
-}
-
-.case-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.case-card {
-  display: grid;
-  gap: 20px;
-  padding: clamp(22px, 3vw, 30px);
-}
-
-.case-card-top {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.case-number {
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  color: var(--white);
-  background: var(--navy);
-  border-radius: 8px;
-  font-weight: 850;
-}
-
-.case-card h3 {
-  margin-top: 8px;
-}
-
-.case-story {
-  display: grid;
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--line);
-}
-
-.case-step {
-  display: grid;
-  grid-template-columns: 105px 1fr;
-  gap: 14px;
-  padding: 14px;
-  background: #fbfcfb;
-}
-
-.case-step span {
-  color: var(--coral);
-  font-size: 0.78rem;
-  font-weight: 850;
-  text-transform: uppercase;
-}
-
-.case-step p {
-  margin: 0;
 }
 
 .tag-row {
@@ -537,12 +677,21 @@ footer {
 .role-card {
   display: grid;
   grid-template-columns: minmax(230px, 0.28fr) minmax(0, 1fr);
-  gap: clamp(22px, 4vw, 48px);
-  padding: clamp(22px, 3vw, 34px);
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  gap: clamp(20px, 3vw, 38px);
+  padding: clamp(22px, 3vw, 30px);
+  position: relative;
+  overflow: hidden;
+}
+
+.role-card::before {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 5px;
+  height: calc(100% - 60px);
+  margin: 0;
+  background: linear-gradient(var(--green), var(--teal));
+  border-radius: 0 999px 999px 0;
 }
 
 .role-meta {
@@ -562,14 +711,49 @@ footer {
   font-size: 1.08rem;
 }
 
-.role-meta small,
-.role-meta em {
+.role-meta small {
   color: var(--muted);
-  font-style: normal;
 }
 
-.role-meta em {
-  font-size: 0.88rem;
+.client-badge {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 14px 14px 14px 16px;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(247, 251, 248, 0.96)),
+    linear-gradient(90deg, rgba(31, 122, 88, 0.12), transparent);
+  border: 1px solid rgba(31, 122, 88, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(16, 36, 52, 0.08);
+  overflow: hidden;
+}
+
+.client-badge::before {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 4px;
+  content: "";
+  background: linear-gradient(var(--green), var(--teal));
+  border-radius: 0 999px 999px 0;
+}
+
+.client-badge span {
+  color: var(--coral);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.client-badge strong {
+  color: var(--navy);
+  font-size: 0.98rem;
+  line-height: 1.2;
 }
 
 .role-title-row {
@@ -592,41 +776,24 @@ footer {
 }
 
 .role-detail p {
-  margin: 0 0 18px;
-  font-size: 1.02rem;
+  margin: 0 0 14px;
+  font-size: 0.98rem;
 }
 
 .role-detail ul {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   margin: 0;
   padding-left: 20px;
 }
 
-.skill-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: -8px 0 28px;
-}
-
-.filter-button {
-  min-height: 40px;
-  padding: 9px 14px;
-  color: var(--muted);
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  font: inherit;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.filter-button.active,
-.filter-button:hover {
-  color: var(--white);
-  background: var(--teal);
-  border-color: var(--teal);
+.role-impact {
+  padding: 12px 14px;
+  color: var(--navy) !important;
+  background: rgba(31, 122, 88, 0.09);
+  border: 1px solid rgba(31, 122, 88, 0.16);
+  border-radius: 14px;
+  font-weight: 800;
 }
 
 .skills-layout {
@@ -636,28 +803,69 @@ footer {
   align-items: start;
 }
 
-.skill-cloud {
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.skill-group-card {
+  padding: 22px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 248, 0.92));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.skill-group-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(31, 122, 88, 0.24);
+  box-shadow: 0 30px 80px rgba(16, 36, 52, 0.16);
+}
+
+.skill-group-heading p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.skill-logo-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
-.skill-cloud span {
+.skill-logo-pill {
   display: inline-flex;
   align-items: center;
+  gap: 9px;
   min-height: 42px;
-  padding: 9px 14px;
+  max-width: 100%;
+  padding: 8px 12px;
   color: var(--ink);
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.86);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 999px;
+  font-size: 0.88rem;
   font-weight: 850;
-  transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease;
+  box-shadow: 0 10px 28px rgba(16, 36, 52, 0.06);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 
-.skill-cloud span.is-dimmed {
-  opacity: 0.22;
-  transform: scale(0.98);
+.skill-logo-pill:hover {
+  background: #f7fbf8;
+  border-color: rgba(31, 122, 88, 0.28);
+  box-shadow: 0 16px 34px rgba(16, 36, 52, 0.1);
+  transform: translateY(-3px);
+}
+
+.skill-logo {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .skills-note,
@@ -681,7 +889,9 @@ footer {
   align-items: center;
   padding: clamp(64px, 9vw, 108px) clamp(20px, 5vw, 72px);
   color: var(--white);
-  background: var(--navy);
+  background:
+    radial-gradient(circle at 76% 22%, rgba(243, 185, 111, 0.16), transparent 28%),
+    linear-gradient(135deg, var(--navy), #123c3f);
 }
 
 .contact-section .eyebrow {
@@ -715,6 +925,38 @@ footer {
   font-size: 0.95rem;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  .slide,
+  .slide .section-heading,
+  .slide .split-heading,
+  .slide .summary-grid article,
+  .slide .bring-grid article,
+  .slide .ai-edge-main,
+  .slide .ai-tool-grid article,
+  .slide .role-card,
+  .slide .skill-group-card,
+  .slide .skill-logo-pill,
+  .slide .skills-note,
+  .slide .education-grid article,
+  .slide.contact-section > div {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (max-width: 1120px) {
   .hero-shell,
   .ai-edge-layout,
@@ -742,13 +984,31 @@ footer {
     padding-bottom: 4px;
   }
 
+  .nav-links a {
+    flex: 0 0 auto;
+  }
+
   .hero-shell {
+    display: block;
+    width: 100%;
+    max-width: 100%;
     min-height: auto;
+  }
+
+  .hero-copy,
+  .profile-card,
+  .hero-actions {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .profile-card {
+    margin-top: 22px;
   }
 
   .summary-grid,
   .ai-tool-grid,
-  .case-grid,
+  .skill-groups,
   .education-grid {
     grid-template-columns: 1fr;
   }
@@ -765,12 +1025,40 @@ footer {
 
 @media (max-width: 560px) {
   .hero {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
     padding-top: 18px;
+    padding-right: 14px;
+    padding-left: 14px;
   }
 
   .hero-shell {
+    display: block;
+    width: 100%;
+    max-width: 100%;
     padding: 22px;
     gap: 20px;
+  }
+
+  .hero-shell::before {
+    inset: 10px;
+  }
+
+  .hero-kicker {
+    font-size: 0.76rem;
+    white-space: normal;
+  }
+
+  .hero-copy,
+  .profile-card,
+  .hero-actions {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .profile-card {
+    margin-top: 20px;
   }
 
   h1 {
@@ -795,6 +1083,7 @@ footer {
   .hero-actions .button,
   .contact-actions .button {
     width: 100%;
+    max-width: 100%;
   }
 
   .profile-card h2 {
@@ -829,11 +1118,6 @@ footer {
 
   .bring-grid article {
     min-height: auto;
-  }
-
-  .case-step {
-    grid-template-columns: 1fr;
-    gap: 4px;
   }
 
   footer {

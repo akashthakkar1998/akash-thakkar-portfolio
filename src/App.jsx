@@ -1,27 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   aiCapabilities,
-  caseStudies,
   education,
   experiences,
   navItems,
   profileItems,
-  skills,
+  skillGroups,
   strengths,
   summaries,
 } from "./data.js";
 
-const filters = [
-  { label: "All", value: "all" },
-  { label: "Cloud", value: "cloud" },
-  { label: "Data", value: "data" },
-  { label: "AI", value: "ai" },
-  { label: "Monitoring", value: "viz" },
-];
-
-function Header() {
+function Header({ activeSection, scrollProgress }) {
   return (
     <header className="site-header">
+      <span className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <a className="brand" href="#top" aria-label="Akash Thakkar home">
         <span className="brand-mark">AT</span>
         <span>
@@ -31,7 +23,12 @@ function Header() {
       </a>
       <nav className="nav-links" aria-label="Primary navigation">
         {navItems.map((item) => (
-          <a href={item.href} key={item.href}>
+          <a
+            className={activeSection === item.href.slice(1) ? "is-active" : ""}
+            href={item.href}
+            key={item.href}
+            aria-current={activeSection === item.href.slice(1) ? "page" : undefined}
+          >
             {item.label}
           </a>
         ))}
@@ -40,12 +37,88 @@ function Header() {
   );
 }
 
+function useSlideReveal() {
+  useEffect(() => {
+    const slides = document.querySelectorAll("[data-slide]");
+    const revealVisibleSlides = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      slides.forEach((slide) => {
+        const rect = slide.getBoundingClientRect();
+        const isInViewport = rect.top < viewportHeight * 0.9 && rect.bottom > viewportHeight * 0.1;
+        const isHashTarget = window.location.hash && `#${slide.id}` === window.location.hash;
+
+        if (isInViewport || isHashTarget) {
+          slide.classList.add("is-visible");
+        }
+      });
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      slides.forEach((slide) => slide.classList.add("is-visible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.06 }
+    );
+
+    slides.forEach((slide) => observer.observe(slide));
+    requestAnimationFrame(revealVisibleSlides);
+    window.addEventListener("hashchange", revealVisibleSlides);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("hashchange", revealVisibleSlides);
+    };
+  }, []);
+}
+
+function usePageMotionState() {
+  const [activeSection, setActiveSection] = useState("");
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateMotionState = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
+
+      const viewportAnchor = window.scrollY + window.innerHeight * 0.52;
+      const current = navItems.reduce((active, item) => {
+        const section = document.querySelector(item.href);
+        if (!section) {
+          return active;
+        }
+        return section.offsetTop <= viewportAnchor ? item.href.slice(1) : active;
+      }, "");
+
+      setActiveSection(current);
+    };
+
+    updateMotionState();
+    window.addEventListener("scroll", updateMotionState, { passive: true });
+    window.addEventListener("resize", updateMotionState);
+    return () => {
+      window.removeEventListener("scroll", updateMotionState);
+      window.removeEventListener("resize", updateMotionState);
+    };
+  }, []);
+
+  return { activeSection, scrollProgress };
+}
+
 function Hero() {
   return (
-    <section className="hero">
+    <section className="hero slide" data-slide>
       <div className="hero-shell">
         <div className="hero-copy">
-          <p className="hero-kicker">Data Engineer | AWS | Snowflake | dbt | AI Data Platforms</p>
+          <p className="hero-kicker">Data Engineer | AI Data Platforms | AWS | Snowflake | dbt</p>
           <h1>Reliable cloud data platforms for governed analytics and AI-ready delivery.</h1>
           <p className="hero-summary">
             I specialize in building data platforms that combine ingestion, orchestration, modeling,
@@ -115,7 +188,7 @@ function CardGrid({ className, items }) {
 
 function Summary() {
   return (
-    <section className="section intro-section">
+    <section className="section intro-section slide" data-slide>
       <SectionHeading
         eyebrow="Summary"
         title="A data engineer focused on dependable systems, usable models, and measurable outcomes."
@@ -127,7 +200,7 @@ function Summary() {
 
 function Strengths() {
   return (
-    <section className="section bring-section" id="bring">
+    <section className="section bring-section slide" id="bring" data-slide>
       <div className="split-heading">
         <p className="eyebrow">What I Bring</p>
         <h2>Technical depth with ownership across the full data lifecycle.</h2>
@@ -147,7 +220,7 @@ function Strengths() {
 
 function AiEdge() {
   return (
-    <section className="section ai-edge-section" id="ai-edge">
+    <section className="section ai-edge-section slide" id="ai-edge" data-slide>
       <SectionHeading title="Early adopter mindset with production engineering discipline." />
       <div className="ai-edge-layout">
         <article className="ai-edge-main">
@@ -166,44 +239,25 @@ function AiEdge() {
   );
 }
 
-function CaseStudies() {
+function ClientBadge({ note }) {
+  if (!note) {
+    return null;
+  }
+
+  const [label, ...clientParts] = note.split(":");
+  const client = clientParts.join(":").trim();
+
   return (
-    <section className="section case-study-section" id="case-studies">
-      <SectionHeading
-        eyebrow="Case Studies"
-        title="Outcome-led data engineering work, explained by problem, approach, and result."
-        subtitle="Professional data engineering portfolios are easiest to evaluate when they show the business problem, the technical design, and the measurable improvement. These examples follow that structure."
-      />
-      <div className="case-grid">
-        {caseStudies.map((study) => (
-          <article className="case-card" key={study.number}>
-            <div className="case-card-top">
-              <div className="case-number">{study.number}</div>
-              <h3>{study.title}</h3>
-            </div>
-            <div className="case-story">
-              {study.story.map((item) => (
-                <div className="case-step" key={item.label}>
-                  <span>{item.label}</span>
-                  <p>{item.text}</p>
-                </div>
-              ))}
-            </div>
-            <div className="tag-row">
-              {study.tags.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+    <div className="client-badge" aria-label={note}>
+      <span>{client ? label : "Client"}</span>
+      <strong>{client || note}</strong>
+    </div>
   );
 }
 
 function Experience() {
   return (
-    <section className="section" id="work">
+    <section className="section experience-section slide" id="work" data-slide>
       <SectionHeading
         eyebrow="Experience"
         title="Production data engineering across healthcare, education, and enterprise platforms."
@@ -215,13 +269,14 @@ function Experience() {
               <span>{role.period}</span>
               <strong>{role.company}</strong>
               <small>{role.location}</small>
-              {role.note ? <em>{role.note}</em> : null}
+              <ClientBadge note={role.note} />
             </div>
             <div className="role-detail">
               <div className="role-title-row">
                 <h3>{role.title}</h3>
                 <span>{role.focus}</span>
               </div>
+              {role.impact ? <p className="role-impact">{role.impact}</p> : null}
               <p>{role.summary}</p>
               <ul>
                 {role.points.map((point) => (
@@ -236,49 +291,60 @@ function Experience() {
   );
 }
 
-function Skills() {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const skillItems = useMemo(
-    () =>
-      skills.map(([label, category]) => ({
-        label,
-        category,
-        dimmed: activeFilter !== "all" && activeFilter !== category,
-      })),
-    [activeFilter]
-  );
+function getSkillIconUrl(item) {
+  if (item.iconSrc) {
+    return item.iconSrc;
+  }
+
+  return null;
+}
+
+function SkillLogo({ item }) {
+  const [failed, setFailed] = useState(false);
+  const iconUrl = getSkillIconUrl(item);
+
+  if (!iconUrl || failed) {
+    return null;
+  }
 
   return (
-    <section className="section skills-section" id="skills">
+    <img
+      className="skill-logo"
+      src={iconUrl}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
+function Skills() {
+  return (
+    <section className="section skills-section slide" id="skills" data-slide>
       <SectionHeading
         eyebrow="Technical Toolkit"
-        title="Hands-on tools across the data platform lifecycle."
+        title="Segmented tech stack across cloud, data, AI, and analytics delivery."
+        subtitle="Grouped by where each tool typically appears in the data platform lifecycle, with recognizable technology symbols where available."
       />
 
-      <div className="skill-controls" aria-label="Skill filters">
-        {filters.map((filter) => (
-          <button
-            className={`filter-button ${activeFilter === filter.value ? "active" : ""}`}
-            type="button"
-            data-filter={filter.value}
-            key={filter.value}
-            onClick={() => setActiveFilter(filter.value)}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
-
       <div className="skills-layout">
-        <div className="skill-cloud">
-          {skillItems.map((skill) => (
-            <span
-              className={skill.dimmed ? "is-dimmed" : ""}
-              data-category={skill.category}
-              key={skill.label}
-            >
-              {skill.label}
-            </span>
+        <div className="skill-groups">
+          {skillGroups.map((group) => (
+            <article className="skill-group-card" key={group.title}>
+              <div className="skill-group-heading">
+                <h3>{group.title}</h3>
+                <p>{group.summary}</p>
+              </div>
+              <div className="skill-logo-grid">
+                {group.items.map((item) => (
+                  <span className="skill-logo-pill" title={item.label} key={item.label}>
+                    <SkillLogo item={item} />
+                    <span>{item.label}</span>
+                  </span>
+                ))}
+              </div>
+            </article>
           ))}
         </div>
 
@@ -297,7 +363,7 @@ function Skills() {
 
 function Education() {
   return (
-    <section className="section education-section">
+    <section className="section education-section slide" data-slide>
       <SectionHeading eyebrow="Education" title="Academic foundation." compact />
       <div className="education-grid">
         {education.map((item) => (
@@ -315,7 +381,7 @@ function Education() {
 
 function Contact() {
   return (
-    <section className="contact-section" id="contact">
+    <section className="contact-section slide" id="contact" data-slide>
       <div>
         <p className="eyebrow">Contact</p>
         <h2>Let's build data systems that people can actually trust.</h2>
@@ -354,15 +420,16 @@ function Footer() {
 }
 
 export default function App() {
+  useSlideReveal();
+  const { activeSection, scrollProgress } = usePageMotionState();
+
   return (
     <>
-      <Header />
+      <Header activeSection={activeSection} scrollProgress={scrollProgress} />
       <main id="top">
         <Hero />
         <Summary />
         <Strengths />
-        <AiEdge />
-        <CaseStudies />
         <Experience />
         <Skills />
         <Education />

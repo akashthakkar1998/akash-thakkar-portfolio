@@ -1,7 +1,5 @@
 export const navItems = [
   { label: "Strengths", href: "#bring" },
-  { label: "AI Edge", href: "#ai-edge" },
-  { label: "Case Studies", href: "#case-studies" },
   { label: "Experience", href: "#work" },
   { label: "Skills", href: "#skills" },
 ];
@@ -28,14 +26,14 @@ export const summaries = [
       "I design data movement and transformation systems with production constraints in mind: source readiness, orchestration, schema drift, validation, observability, and compute efficiency.",
   },
   {
-    title: "Analytics Engineering",
-    body:
-      "I translate fragmented operational data into consistent warehouse models, dbt layers, and semantic structures that give analysts and business users cleaner paths to trusted reporting.",
-  },
-  {
     title: "AI-Ready Data Products",
     body:
       "I extend governed data platforms with semantic search, Snowflake Cortex, natural-language analytics, and LLM-supported workflows where they improve access, speed, or data clarity.",
+  },
+  {
+    title: "Analytics Engineering",
+    body:
+      "I translate fragmented operational data into consistent warehouse models, dbt layers, and semantic structures that give analysts and business users cleaner paths to trusted reporting.",
   },
 ];
 
@@ -46,6 +44,11 @@ export const strengths = [
       "Build and maintain pipelines with clear orchestration, operational visibility, recovery paths, and supportable designs.",
   },
   {
+    title: "AI-Ready Analytics",
+    body:
+      "Prepare semantic layers, governed datasets, and retrieval patterns that make natural-language analytics more reliable.",
+  },
+  {
     title: "Data Quality Mindset",
     body:
       "Use validation checks, reconciliations, schema awareness, and documented assumptions to keep downstream trust high.",
@@ -54,11 +57,6 @@ export const strengths = [
     title: "Cloud-Native Engineering",
     body:
       "Design batch and streaming workflows across AWS services, Snowflake, and containerized APIs for scalable delivery.",
-  },
-  {
-    title: "AI-Ready Analytics",
-    body:
-      "Prepare semantic layers, governed datasets, and retrieval patterns that make natural-language analytics more reliable.",
   },
   {
     title: "Business-Facing Data Products",
@@ -90,180 +88,134 @@ export const aiCapabilities = [
   },
 ];
 
-export const caseStudies = [
-  {
-    number: "01",
-    title: "Governed Commercial Data Products",
-    tags: ["Snowflake", "dbt", "SQL", "Cortex"],
-    story: [
-      {
-        label: "Problem",
-        text:
-          "Commercial data lived across Salesforce, SAP, GA4, IQVIA, and related systems, making reporting harder to govern and reconcile.",
-      },
-      {
-        label: "Approach",
-        text:
-          "Built Snowflake ingestion and dbt transformation layers with standardized business logic, defined grain, and reusable data models.",
-      },
-      {
-        label: "Result",
-        text:
-          "Improved trusted reporting, enabled richer commercial analytics, and strengthened fuzzy matching with Snowflake AI functions.",
-      },
-    ],
-  },
-  {
-    number: "02",
-    title: "Nightly ETL and ML Experimentation Stack",
-    tags: ["AWS Glue", "Step Functions", "Spark", "SageMaker"],
-    story: [
-      {
-        label: "Problem",
-        text:
-          "Batch processing and experimentation needed a repeatable workflow with validation and predictable service-level timing.",
-      },
-      {
-        label: "Approach",
-        text:
-          "Connected Glue, Step Functions, Lambda, Spark, SageMaker, and Great Expectations into a nightly processing stack.",
-      },
-      {
-        label: "Result",
-        text:
-          "Reduced batch latency by 40% while keeping workload completion under 30 minutes.",
-      },
-    ],
-  },
-  {
-    number: "03",
-    title: "Schema-Aware Streaming Ingestion",
-    tags: ["Kinesis", "Lambda", "SQS", "DynamoDB"],
-    story: [
-      {
-        label: "Problem",
-        text:
-          "Streaming ingestion was vulnerable to malformed events, congestion, and downstream reliability issues.",
-      },
-      {
-        label: "Approach",
-        text:
-          "Designed event-driven ingestion using Kinesis, Lambda, SQS, DynamoDB, real-time normalization, and DLQ support.",
-      },
-      {
-        label: "Result",
-        text:
-          "Reduced ingestion failures by 60% and improved low-latency availability for analytics consumers.",
-      },
-    ],
-  },
-  {
-    number: "04",
-    title: "Warehouse Modeling and Performance",
-    tags: ["Redshift", "Snowflake", "PySpark", "Docker"],
-    story: [
-      {
-        label: "Problem",
-        text:
-          "Analytics workloads needed cleaner warehouse models, faster query response, and fewer downstream data errors.",
-      },
-      {
-        label: "Approach",
-        text:
-          "Built dimensional models in Redshift and Snowflake, added PySpark validation workflows, and exposed services through Flask and Docker APIs.",
-      },
-      {
-        label: "Result",
-        text:
-          "Improved query performance by 40% and reduced downstream data errors by 35%.",
-      },
-    ],
-  },
-];
-
 export const experiences = [
   {
     period: "Aug 2025 - Present",
-    company: "Boston Scientific Corporation",
+    company: "Tata Consultancy Services Ltd",
     location: "Marlborough, MA",
-    note: "Consultant via Tata Consultancy Services Ltd",
+    note: "Client: Boston Scientific Corporation",
     title: "Data & Analytics Engineer",
     focus: "Commercial analytics, Snowflake, dbt, Cortex",
+    impact:
+      "Built governed commercial data products and AI-ready analytics workflows across Snowflake, dbt, Cortex, Salesforce, SAP, GA4, and IQVIA datasets.",
     summary:
-      "Engineering Snowflake-based ingestion and transformation pipelines that bring together Salesforce, SAP, GA4, IQVIA, and related enterprise datasets into governed data products for reporting, analytics, and AI-enabled exploration.",
+      "Engineering Snowflake-based ingestion, transformation, semantic modeling, and agentic analytics workflows that unify commercial data from Salesforce, SAP, GA4, IQVIA, and related enterprise systems. The work supports governed reporting, decision support, natural-language analysis, and faster insight delivery for commercial analytics users.",
     points: [
-      "Developed dbt transformation layers that consolidate multi-source business logic and improve dataset usability.",
-      "Enhanced matching and reconciliation pipelines with fuzzy matching, Snowflake AI_SIMILARITY, and AI_COMPLETE.",
-      "Defined semantic layer grain across business workflows to improve natural-language SQL generation and insight quality.",
-      "Built Airflow-trigger patterns with Lambda and EventBridge to monitor source readiness and run dependent dbt jobs.",
+      "Engineered Snowflake ingestion and transformation pipelines that unified sales and marketing data into governed data products for commercial reporting and decision support.",
+      "Developed dbt transformation layers that standardized business logic, consolidated multiple source systems, and improved dataset usability for trusted analytics.",
+      "Reconciled IQVIA and SAP data using fuzzy matching, improving data clarity and strengthening connected commercial analytics across healthcare and operational datasets.",
+      "Introduced AI-driven metrics using Snowflake AI_SIMILARITY and AI_COMPLETE to enrich matching pipelines and improve commercial reporting reliability.",
+      "Enhanced existing dbt pipelines by optimizing data flow, reducing duplicate processing, and delivering additional fields without increasing compute cost.",
+      "Built semantic layers by mapping business workflows and defining grain at each level, improving natural-language SQL generation and downstream insight quality.",
+      "Orchestrated an agentic workflow using Cortex Search, Cortex Analyst, and custom tools to route repeated queries dynamically and improve response quality.",
+      "Built an Airflow-based trigger framework with Lambda and EventBridge to monitor source readiness and dynamically run dependent dbt jobs with less manual intervention.",
     ],
   },
   {
     period: "Dec 2023 - May 2025",
     company: "University of New Haven",
     location: "West Haven, CT",
-    title: "Graduate Research Assistant - Data Science",
+    title: "Graduate Research & Teaching Assistant - Data Science",
     focus: "AWS labs, ETL automation, streaming, applied ML",
+    impact:
+      "Delivered hands-on instruction and built production-style research systems across distributed data engineering, ETL, streaming, and applied ML workflows.",
     summary:
-      "Delivered hands-on instruction and supported applied data engineering work across distributed systems, AWS analytics services, NLP automation, and scalable batch and streaming pipeline patterns.",
+      "Supported AWS Academy labs, applied coursework, workshops, and capstone teams while building reusable systems for transcript automation, nightly ETL, ML experimentation, validation, and streaming ingestion. The work combined teaching support with hands-on implementation of scalable data engineering patterns.",
     points: [
-      "Guided students through production-oriented labs using AWS Glue, Redshift, EMR, Python, Spark, Hadoop, and MapReduce.",
-      "Automated transcript evaluation with Tesseract OCR and spaCy NLP, reducing manual processing time by 66%.",
-      "Built a nightly ETL and experimentation stack with Glue, Step Functions, Lambda, Spark, SageMaker, and Great Expectations.",
-      "Implemented schema-aware Kinesis ingestion with DLQ support and real-time normalization to reduce failures and congestion.",
+      "Delivered hands-on instruction in distributed data engineering, ETL design, and cloud analytics through AWS Academy labs and applied coursework.",
+      "Guided students in building batch-processing systems with AWS Glue, Redshift, EMR, and Python, emphasizing production-grade design patterns.",
+      "Led workshops on Hadoop, Spark, and MapReduce, and supported capstone teams by reviewing implementations and advising on technical architecture decisions.",
+      "Automated transcript evaluation with Tesseract OCR and spaCy NLP, reducing manual processing time by 66% and creating a repeatable evaluation workflow.",
+      "Built a nightly ETL and ML experimentation stack with Glue, Step Functions, Lambda, Spark, SageMaker, and Great Expectations, cutting batch latency by 40% while keeping SLAs under 30 minutes.",
+      "Implemented schema-aware Kinesis ingestion with DLQ support and real-time normalization, eliminating 60% of ingestion failures and reducing system congestion.",
     ],
   },
   {
     period: "Aug 2020 - Aug 2023",
     company: "Tata Consultancy Services Ltd",
     location: "Mumbai, India",
+    note: "Client: ICICI Prudential Insurance",
     title: "Systems Engineer - Data Engineer",
     focus: "ETL pipelines, warehouses, APIs, observability",
+    impact:
+      "Delivered production ETL, warehouse, API, event-driven ingestion, and observability capabilities for high-volume insurance operations and analytics consumption.",
     summary:
-      "Built production-grade ETL workflows, warehouse models, PySpark transformations, microservices, and event-driven ingestion systems serving large-scale analytics and real-time business consumption.",
+      "Built production-grade ETL workflows, Redshift and Snowflake warehouse models, PySpark transformations, Python microservices, and event-driven ingestion systems for insurance operations, reporting, ML inference, and real-time business consumption. The role covered cloud pipeline delivery, dimensional modeling, validation, monitoring, and application-facing data services.",
     points: [
-      "Processed 10M+ records per day using AWS Glue, Lambda, and Step Functions across multiple data domains.",
-      "Optimized Redshift and Snowflake dimensional models, improving query performance by 40%.",
+      "Engineered ETL pipelines with AWS Glue, Lambda, and Step Functions to process 10M+ records per day across insurance policy, customer, transaction, and operations data domains.",
+      "Built and optimized warehouse models in Redshift and Snowflake using dimensional modeling patterns, improving query performance by 40%.",
       "Developed PySpark workflows with Great Expectations checks, reducing downstream data errors by 35%.",
-      "Built Flask and Docker REST services for on-demand data extraction and ML inference.",
+      "Built Python microservices with Flask and Docker for on-demand data extraction and ML inference, exposing services through REST APIs for real-time business consumption.",
+      "Designed event-driven ingestion pipelines across Lambda, Kinesis, SQS, and DynamoDB, increasing data throughput by 60% and enabling low-latency processing.",
+      "Strengthened observability with KPI-driven CloudWatch dashboards and embedded logging patterns, reducing monitoring overhead by 25%.",
     ],
   },
 ];
 
-export const skills = [
-  ["AWS Glue", "cloud"],
-  ["Lambda", "cloud"],
-  ["S3", "cloud"],
-  ["EMR", "cloud"],
-  ["Kinesis", "cloud"],
-  ["SQS", "cloud"],
-  ["Step Functions", "cloud"],
-  ["Snowflake", "cloud"],
-  ["Terraform", "cloud"],
-  ["Docker", "cloud"],
-  ["Python", "data"],
-  ["SQL", "data"],
-  ["PySpark", "data"],
-  ["Pandas", "data"],
-  ["NumPy", "data"],
-  ["dbt", "data"],
-  ["Data Modeling", "data"],
-  ["Great Expectations", "data"],
-  ["Flask", "data"],
-  ["FastAPI", "data"],
-  ["Cortex Analyst", "ai"],
-  ["Cortex Search", "ai"],
-  ["LLM Applications", "ai"],
-  ["Semantic Search", "ai"],
-  ["spaCy", "ai"],
-  ["PyTorch", "ai"],
-  ["TensorFlow", "ai"],
-  ["MLflow", "ai"],
-  ["CloudWatch", "viz"],
-  ["Tableau", "viz"],
-  ["Power BI", "viz"],
-  ["Matplotlib", "viz"],
-  ["Seaborn", "viz"],
+export const skillGroups = [
+  {
+    title: "Cloud & Orchestration",
+    summary: "Services used to move, schedule, monitor, and recover production workloads.",
+    items: [
+      { label: "AWS Glue", iconSrc: "/aws-icons/aws-glue.svg" },
+      { label: "AWS Lambda", iconSrc: "/aws-icons/aws-lambda.svg" },
+      { label: "Amazon S3", iconSrc: "/aws-icons/amazon-s3.svg" },
+      { label: "Amazon EMR", iconSrc: "/aws-icons/amazon-emr.svg" },
+      { label: "Amazon Kinesis", iconSrc: "/aws-icons/amazon-kinesis.svg" },
+      { label: "Amazon SQS", iconSrc: "/aws-icons/amazon-sqs.svg" },
+      { label: "Step Functions", iconSrc: "/aws-icons/aws-step-functions.svg" },
+      { label: "Apache Airflow", iconSrc: "/tech-icons/airflow.svg" },
+      { label: "Terraform", iconSrc: "/tech-icons/terraform.svg" },
+      { label: "Docker", iconSrc: "/tech-icons/docker.svg" },
+    ],
+  },
+  {
+    title: "Warehouse, Modeling & Data Quality",
+    summary: "Tools for analytical models, transformations, quality gates, and trusted delivery.",
+    items: [
+      { label: "Snowflake", iconSrc: "/tech-icons/snowflake.svg" },
+      { label: "dbt", iconSrc: "/tech-icons/dbt.svg" },
+      { label: "SQL", iconSrc: "/tech-icons/postgresql.svg" },
+      { label: "PySpark", iconSrc: "/tech-icons/apache-spark.svg" },
+      { label: "Great Expectations" },
+      { label: "Data Modeling" },
+      { label: "Pandas", iconSrc: "/tech-icons/pandas.svg" },
+      { label: "NumPy", iconSrc: "/tech-icons/numpy.svg" },
+    ],
+  },
+  {
+    title: "AI, ML & Emerging Tools",
+    summary: "Practical AI tooling evaluated for analytics, automation, and governed exploration.",
+    items: [
+      { label: "Snowflake Cortex", iconSrc: "/tech-icons/snowflake.svg" },
+      { label: "Cortex Search", iconSrc: "/tech-icons/snowflake.svg" },
+      { label: "Snowflake Openflow", iconSrc: "/tech-icons/snowflake.svg" },
+      { label: "Codex", iconSrc: "/tech-icons/openai.svg" },
+      { label: "Claude Code", iconSrc: "/tech-icons/claude.svg" },
+      { label: "LLM Applications", iconSrc: "/tech-icons/openai.svg" },
+      { label: "RAG Prototypes" },
+      { label: "Prompt Evaluation" },
+      { label: "Tool Calling" },
+      { label: "spaCy", iconSrc: "/tech-icons/spacy.svg" },
+      { label: "PyTorch", iconSrc: "/tech-icons/pytorch.svg" },
+      { label: "TensorFlow", iconSrc: "/tech-icons/tensorflow.svg" },
+      { label: "MLflow", iconSrc: "/tech-icons/mlflow.svg" },
+    ],
+  },
+  {
+    title: "APIs, Analytics & Visualization",
+    summary: "Application, reporting, and analysis tools used to expose data to consumers.",
+    items: [
+      { label: "Python", iconSrc: "/tech-icons/python.svg" },
+      { label: "FastAPI", iconSrc: "/tech-icons/fastapi.svg" },
+      { label: "Flask", iconSrc: "/tech-icons/flask.svg" },
+      { label: "CloudWatch", iconSrc: "/aws-icons/amazon-cloudwatch.svg" },
+      { label: "Tableau", iconSrc: "/tech-icons/tableau.svg" },
+      { label: "Power BI", iconSrc: "/tech-icons/power-bi.svg" },
+      { label: "Matplotlib", iconSrc: "/tech-icons/matplotlib.svg" },
+      { label: "Seaborn", iconSrc: "/tech-icons/seaborn.svg" },
+    ],
+  },
 ];
 
 export const education = [
